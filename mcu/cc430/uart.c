@@ -178,7 +178,7 @@ uart_enable(uint8_t enable)
 /* the interrupt handler could also be defined elsewhere... */
 ISR(USCI_A0, uart0_rx_interrupt) 
 {
-  print("Interupt recieved\r\n");
+  printf("Interupt recieved\r\n");
   ENERGEST_ON(ENERGEST_TYPE_CPU);
           
   uint8_t c;
