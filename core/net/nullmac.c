@@ -34,7 +34,7 @@
 
 #include "contiki.h"
 
-static uint8_t receivedMessage[10];
+static volatile uint8_t receivedMessage[10];
 static volatile uint8_t newMessage;
 
 #if NULLMAC_CONF_ON
