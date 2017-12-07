@@ -35,7 +35,7 @@
 #include "contiki.h"
 
 static volatile uint8_t receivedMessage[10];
-static volatile uint8_t newMessage;
+static volatile uint8_t newMessage = 0;
 
 #if NULLMAC_CONF_ON
 
@@ -46,7 +46,6 @@ static volatile uint8_t newMessage;
 
 volatile uint8_t pkt_buffer[RF_CONF_MAX_PKT_LEN] __attribute__((aligned(2)));
 volatile int payload_length;//current payload length
-
 
 //#include "xmem.h"
 
@@ -66,11 +65,9 @@ static rtimer_clock_t now;
 
 /***************************** NullMAC interface *****************************/
 
-int getReceivedMessage(uint8_t * msg) {
+void getReceivedMessage(uint8_t * msg, uint8_t * newMsg) {
+	*newMsg = newMessage;
 	memcpy(msg,receivedMessage,6);
-	int ret = newMessage;
-	newMessage = 0;
-	return ret;
 }
 
 void nullmac_init(void) {
@@ -145,18 +142,19 @@ void rf1a_cb_rx_ended(rtimer_clock_t *timestamp, uint8_t *pkt, uint8_t pkt_len) 
 
 	if (header.destination == NULLMAC_BROADCAST_ADDR) 
 	{
-		DEBUG_PRINT_INFO("Received broadcast message is %s",payload);
-		memcpy(receivedMessage,payload,6);	
-		newMessage = 1;
+		printf("Received broadcast message is %d : %d\r\n",payload[0],payload[1]);
+		memcpy(receivedMessage,payload,10);	
+		newMessage++;
+
 	}
 	else 
 	{
 		if (header.destination == node_id) 
 		{
 			memcpy(pkt_buffer,payload, pkt_len);
-			DEBUG_PRINT_INFO("Received unicast message is %s",payload);
-			memcpy(receivedMessage,payload,6);
-			newMessage = 1;
+			printf("Received unicast message is %d : %d\r\n",payload[0],payload[1]);
+			memcpy(receivedMessage,payload,10);
+			newMessage++;
 		}
 	}
 	

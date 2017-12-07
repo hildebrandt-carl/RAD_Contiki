@@ -65,7 +65,7 @@ void unicast_received(rtimer_clock_t *timestamp, void *payload,
 void broadcast_received(rtimer_clock_t *timestamp, void *payload, 
                                uint8_t payload_len, addr_t source);
 
-int getReceivedMessage(uint8_t * msg);
+void getReceivedMessage(uint8_t * msg, uint8_t * newMsg);
 
 #endif /* NULLMAC_CONF_ON */
 
