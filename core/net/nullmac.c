@@ -34,7 +34,7 @@
 
 #include "contiki.h"
 
-static uint8_t recievedMessage[50] ;
+static uint8_t receivedMessage[10] ;
 
 #if NULLMAC_CONF_ON
 
@@ -65,8 +65,8 @@ static rtimer_clock_t now;
 
 /***************************** NullMAC interface *****************************/
 
-void getReceivedMessage(uint8_t * str) {
-	strcpy(str,recievedMessage);
+void getReceivedMessage(uint8_t * msg) {
+	memcpy(msg,receivedMessage,6);
 }
 
 void nullmac_init(void) {
@@ -142,7 +142,7 @@ void rf1a_cb_rx_ended(rtimer_clock_t *timestamp, uint8_t *pkt, uint8_t pkt_len) 
 	if (header.destination == NULLMAC_BROADCAST_ADDR) 
 	{
 		DEBUG_PRINT_INFO("Received broadcast message is %s",payload);
-		strcpy(recievedMessage,payload);	
+		memcpy(receivedMessage,payload,6);	
 	}
 	else 
 	{
@@ -150,7 +150,7 @@ void rf1a_cb_rx_ended(rtimer_clock_t *timestamp, uint8_t *pkt, uint8_t pkt_len) 
 		{
 			memcpy(pkt_buffer,payload, pkt_len);
 			DEBUG_PRINT_INFO("Received unicast message is %s",payload);
-			strcpy(recievedMessage,payload);
+			memcpy(receivedMessage,payload,6);
 		}
 	}
 	
