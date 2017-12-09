@@ -142,7 +142,7 @@ void rf1a_cb_rx_ended(rtimer_clock_t *timestamp, uint8_t *pkt, uint8_t pkt_len) 
 
 	if (header.destination == NULLMAC_BROADCAST_ADDR) 
 	{
-		printf("Received broadcast message is %d : %d\r\n",payload[0],payload[1]);
+		//printf("Received broadcast message is %d : %d\r\n",payload[0],payload[1]);
 		memcpy(receivedMessage,payload,10);	
 		newMessage++;
 
@@ -152,7 +152,7 @@ void rf1a_cb_rx_ended(rtimer_clock_t *timestamp, uint8_t *pkt, uint8_t pkt_len) 
 		if (header.destination == node_id) 
 		{
 			memcpy(pkt_buffer,payload, pkt_len);
-			printf("Received unicast message is %d : %d\r\n",payload[0],payload[1]);
+			//printf("Received unicast message is %d : %d\r\n",payload[0],payload[1]);
 			memcpy(receivedMessage,payload,10);
 			newMessage++;
 		}
